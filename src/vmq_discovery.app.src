@@ -1,8 +1,8 @@
-{application, vmq-discovery,
- [{description, "An OTP application"},
+{application, vmq_discovery,
+ [{description, "VerneMQ peer discovery backends"},
   {vsn, "0.1.0"},
   {registered, []},
-  {mod, { vmq-discovery_app, []}},
+  {mod, { vmq_discovery_app, []}},
   {applications,
    [kernel,
     stdlib

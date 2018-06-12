@@ -3,7 +3,7 @@
 %% @end
 %%%-------------------------------------------------------------------
 
--module(vmq-discovery_app).
+-module(vmq_discovery_app).
 
 -behaviour(application).
 
@@ -15,7 +15,7 @@
 %%====================================================================
 
 start(_StartType, _StartArgs) ->
-    vmq-discovery_sup:start_link().
+    vmq_discovery_sup:start_link().
 
 %%--------------------------------------------------------------------
 stop(_State) ->

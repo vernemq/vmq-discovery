@@ -3,7 +3,7 @@
 %% @end
 %%%-------------------------------------------------------------------
 
--module(vmq-discovery_sup).
+-module(vmq_discovery_sup).
 
 -behaviour(supervisor).
 
