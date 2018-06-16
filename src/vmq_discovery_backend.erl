@@ -21,12 +21,12 @@
 
 -callback list_nodes() -> {ok, Nodes :: list()} | {error, Reason :: string()}.
 
--callback register()   -> ok | {error, Reason :: string()}.
+-callback register() -> ok | {error, Reason :: string()}.
 
 -callback unregister() -> ok | {error, Reason :: string()}.
 
--callback before_registration()   -> ok | {error, Reason :: string()}.
+-callback before_registration() -> ok | {error, Reason :: string()}.
 
--callback after_registration()   -> ok | {error, Reason :: string()}.
+-callback after_registration() -> ok | {error, Reason :: string()}.
 
 -optional_callbacks([init/0]).
