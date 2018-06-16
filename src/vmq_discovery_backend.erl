@@ -15,6 +15,8 @@
 
 -module(vmq_discovery_backend).
 
+-author("Dairon Medina <me@dairon.org>").
+
 -callback init() -> ok | {error, Reason :: string()}.
 
 -callback list_nodes() -> {ok, Nodes :: list()} | {error, Reason :: string()}.
