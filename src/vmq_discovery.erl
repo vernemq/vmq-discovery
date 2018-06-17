@@ -70,3 +70,40 @@ maybe_register() ->
             ok
     end.
 
+-spec maybe_unregister() -> ok.
+maybe_unregister() ->
+    Backend = get_backend(),
+    case Backend:supports_registration() of
+        true ->
+            Backend:unregister();
+        false ->
+            lager:info("Cluster discovery backend ~s does not supports registration, skipping...", [Backend]),
+            ok
+    end.
+
+
+ -spec maybe_do_registration_delay() -> ok.
+maybe_do_registration_delay() ->
+  Backend = get_backend(),
+    case Backend:supports_registration() of
+        true  ->
+            registration_delay();
+        false ->
+            rabbit_log:info("Cluster discovery backend ~s does not support registration, skipping registration delay.", [Backend]),
+            ok
+    end.
+
+-spec registration_delay() -> ok.
+registration_delay() ->
+    case application:get_env(?APP, startup_delay) of
+        {ok, Delay} when is_integer(Delay) ->
+            DelayMs = Delay * 1000,
+            rand:seed(exsplus),
+            Jitter = max(1, rand:uniform(DelayMs)),
+            FinalDelay = DelayMs + Jitter,
+            lager:info("Waiting for ~p milliseconds before registration...", [FinalDelay]),
+            timer:sleep(FinalDelay),
+            ok;
+        _Otherwise ->
+            ok
+    end.
