@@ -16,6 +16,11 @@
 
 -author("Dairon Medina <me@dairon.org>").
 
+
+-export([maybe_init/0, get_cluster_nodes/0, get_backend/0,
+        maybe_register/0, maybe_unregister/0,
+        maybe_do_registration_delay/0]).
+
 -define(APP, vmq_discovery).
 
 -define(DEFAULT_BACKEND, none).
