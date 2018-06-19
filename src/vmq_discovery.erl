@@ -17,7 +17,10 @@
 -author("Dairon Medina <me@dairon.org>").
 
 -define(APP, vmq_discovery).
+
 -define(DEFAULT_BACKEND, none).
+%% default node prefix to attach to discovered hostnames
+-define(DEFAULT_NODE_PREFIX, "VerneMQ").
 
 
 -spec get_backend() -> atom().
