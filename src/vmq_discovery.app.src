@@ -5,12 +5,18 @@
   {mod, { vmq_discovery_app, []}},
   {applications,
    [kernel,
-    stdlib
+    stdlib,
+    lager,
+    clique
    ]},
-  {env,[]},
+  {env,[
+      {discovery_enabled, false},
+      {discovery_backend, manual},
+      {autoclean_interval, 20}
+  ]},
   {modules, []},
-
-  {maintainers, []},
-  {licenses, []},
-  {links, []}
+  {maintainers, ["Dairon Medina <me@dairon.org>"]},
+  {licenses, ["Apache2"]},
+  {links,[{"Github",
+            "https://github.com/vernemq/vmq-discovery"}]}
  ]}.

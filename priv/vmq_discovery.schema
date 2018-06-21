@@ -1,0 +1,30 @@
+%% @doc Configures whether or not VerneMQ will use cluster discovery.
+{mapping, "vmq_discovery.discovery_enabled", "vmq_discovery.discovery_enabled", [
+    {default, off},
+    {datatype, flag}
+]}.
+
+
+%% @doc Set the time in seconds to remove missing nodes from the cluster
+{mapping, "vmq_discovery.autoclean_interval", "vmq_discovery.autoclean_interval", [
+    {default, 20},
+    {commented, 20},
+    {datatype, integer}
+]}.
+
+
+%% @doc Node discovery backend used for automatic cluster formation.
+{mapping, "vmq_discovery.discovery_backend", "vmq_discovery.discovery_backend", [
+    {datatype, atom}
+]}.
+
+{translation, "vmq_discovery.discovery_backend",
+fun(Conf) ->
+    case cuttlefish:conf_get("vmq_discovery.discovery_backend", Conf, manual) of
+        manual         -> backend_manual;
+        dns            -> backend_dns;
+        aws            -> backend_aws;
+        kubernetes     -> backend_k8s;
+        Other         -> Other
+    end
+end}.

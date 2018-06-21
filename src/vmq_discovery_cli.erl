@@ -12,24 +12,24 @@
 %% See the License for the specific language governing permissions and
 %% limitations under the License.
 
--module(vmq_discovery_app).
+-module(vmq_discovery_cli).
 
--behaviour(application).
+-export([register_cli/0]).
+-behaviour(clique_handler).
 
-%% Application callbacks
--export([start/2, stop/1]).
 
-%%====================================================================
-%% API
-%%====================================================================
+register_cli() ->
+    register_config().
 
-start(_StartType, _StartArgs) ->
-    vmq_discovery_sup:start_link().
+register_config() ->
+    ConfigKeys = [
+     "vmq_discovery.discovery_enabled",
+     "vmq_discovery.autoclean_interval"
+    ],
+    [clique:register_config([Key],
+        fun register_config_callback/3) || Key <- ConfigKeys
+    ],
+    ok = clique:register_config_whitelist(ConfigKeys).
 
-%%--------------------------------------------------------------------
-stop(_State) ->
+register_config_callback(_, _, _) ->
     ok.
-
-%%====================================================================
-%% Internal functions
-%%====================================================================
