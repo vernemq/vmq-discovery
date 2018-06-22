@@ -14,10 +14,14 @@
 
 -module(vmq_discovery_cli).
 
--export([register_cli/0]).
+-author("Dairon Medina <me@dairon.org>").
+
 -behaviour(clique_handler).
 
+-export([register_cli/0]).
 
+
+-spec register_cli() -> ok.
 register_cli() ->
     register_config().
 
