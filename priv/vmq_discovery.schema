@@ -4,6 +4,10 @@
     {datatype, flag}
 ]}.
 
+%% Cluster formation maximum startup delay
+{mapping, "vmq_discovery.max_startup_delay", "vmq_discovery.max_startup_delay", [
+    {datatype, integer}
+]}.
 
 %% @doc Set the time in seconds to remove missing nodes from the cluster
 {mapping, "vmq_discovery.autoclean_interval", "vmq_discovery.autoclean_interval", [
@@ -26,5 +30,24 @@ fun(Conf) ->
         aws            -> backend_aws;
         kubernetes     -> backend_k8s;
         Other         -> Other
+    end
+end}.
+
+%% @doc Manual configuration cluster discovery backend.
+%% Clustering happens automatically at startup by joining
+%% a list of predefined nodes.
+{mapping, "vmq_discovery.manual.nodes.$name", "vmq_discovery.cluster_nodes", [
+    {datatype, string},
+    {commented, "VerneMQ@127.0.0.1"},
+    {include_default, "node1"}
+]}.
+
+{translation, "vmq_discovery.cluster_nodes",
+fun(Conf) ->
+    Prefix = "vmq_discovery.manual.nodes",
+    Nodes = [V || {_, V} <- cuttlefish_variable:filter_by_prefix(Prefix, Conf)],
+    case Nodes of
+        [] -> cuttlefish:unset();
+        SomethingElse -> SomethingElse.
     end
 end}.
