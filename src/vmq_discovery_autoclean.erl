@@ -12,4 +12,53 @@
 %% See the License for the specific language governing permissions and
 %% limitations under the License.
 
--module(vmq_discovery_cleanup_worker).
+-module(vmq_discovery_autoclean).
+
+-author("Dairon Medina <me@dairon.org>").
+
+-behaviour(gen_server).
+
+%% gen_server callbacks
+-export([init/1,
+        handle_call/3,
+        handle_cast/2,
+        handle_info/2,
+        terminate/2,
+        code_change/3]).
+
+-define(APP, vmq_discovery).
+
+-record(state, {interval}).
+
+%%%===================================================================
+%%% gen_server callbacks
+%%%===================================================================
+
+init([]) ->
+    case application:get_env(?APP, autoclean_interval) of
+        0 ->
+            {ok, #state{}};
+        Interval ->
+            State = #state{interval = Interval},
+            {ok, State}
+    end.
+
+handle_call(_Request, _From, State) ->
+    {reply, ok, State}.
+
+handle_cast(_Request, State) ->
+    {noreply, State}.
+
+handle_info(_Info, State) ->
+    {noreply, State}.
+
+terminate(_Reason, _State) ->
+    ok.
+
+code_change(_OldVsn, State, _Extra) ->
+    {ok, State}.
+
+
+%%%===================================================================
+%%% Internal functions
+%%%===================================================================
