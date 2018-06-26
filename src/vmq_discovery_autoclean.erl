@@ -18,6 +18,9 @@
 
 -behaviour(gen_server).
 
+
+-export([start_link/0]).
+
 %% gen_server callbacks
 -export([init/1,
         handle_call/3,
@@ -26,6 +29,8 @@
         terminate/2,
         code_change/3]).
 
+-define(SERVER, ?MODULE).
+
 -define(APP, vmq_discovery).
 
 -record(state, {
@@ -33,6 +38,19 @@
 }).
 
 -type state() :: #state{}.
+
+%%%===================================================================
+%%% API
+%%%===================================================================
+
+%%--------------------------------------------------------------------
+%% @doc
+%% Starts the server
+%% @end
+%%--------------------------------------------------------------------
+-spec start_link() -> ignore | {error, Reason :: term()} | {'ok', pid()}.
+start_link() ->
+    gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
 
 %%%===================================================================
 %%% gen_server callbacks
