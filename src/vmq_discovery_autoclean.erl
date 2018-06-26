@@ -28,12 +28,25 @@
 
 -define(APP, vmq_discovery).
 
--record(state, {interval}).
+-record(state, {
+    interval::integer
+}).
+
+-type state() :: #state{}.
 
 %%%===================================================================
 %%% gen_server callbacks
 %%%===================================================================
 
+%%--------------------------------------------------------------------
+%% @private
+%% @doc
+%% Initializes the server
+%% @end
+%%--------------------------------------------------------------------
+-spec(init(Args :: term()) ->
+    {ok, State :: state()} | {ok, State :: state(), timeout() | hibernate} |
+    {stop, Reason :: term()} | ignore).
 init([]) ->
     case application:get_env(?APP, autoclean_interval) of
         0 ->
@@ -62,3 +75,23 @@ code_change(_OldVsn, State, _Extra) ->
 %%%===================================================================
 %%% Internal functions
 %%%===================================================================
+
+%%--------------------------------------------------------------------
+%% @private
+%% @doc
+%% Return the nodes discovered by the cluster discovery backend.
+%% @end
+%%--------------------------------------------------------------------
+-spec discovered_nodes() -> [node()].
+discovered_nodes() ->
+    Backend = vmq_discovery:get_backend(),
+    case Backend:list_nodes() of
+        {ok, Nodes} ->
+            lager:debug("Cluster discovery backend: ~p returned ~p",
+                        [Backend, Nodes]),
+            Nodes;
+        {error, Reason} ->
+            lager:debug("Cluster discovery backend: ~p returned error ~p",
+                        [Backend, Reason]),
+            []
+    end.
