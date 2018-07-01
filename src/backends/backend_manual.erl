@@ -27,8 +27,10 @@
 
 list_nodes() ->
     case application:get_env(vmq_discovery, cluster_nodes) of
-        Nodes when is_list(Nodes) -> {ok, Nodes};
-        undefined -> {ok, []}
+        Nodes when is_list(Nodes) ->
+            {ok, Nodes};
+        undefined ->
+            {ok, []}
     end.
 
 supports_registration() ->
