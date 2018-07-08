@@ -70,9 +70,7 @@ maybe_register() ->
     Backend = get_backend(),
     case Backend:supports_registration() of
         true ->
-            Backend:before_registration(),
-            Backend:register(),
-            Backend:after_registration();
+            Backend:register();
         false ->
             lager:info("Cluster discovery backend ~s does not supports registration, skipping...", [Backend]),
             ok

@@ -26,8 +26,4 @@
 
 -callback unregister() -> ok | {error, Reason :: string()}.
 
--callback before_registration() -> ok | {error, Reason :: string()}.
-
--callback after_registration() -> ok | {error, Reason :: string()}.
-
--optional_callbacks([init/0, before_registration/0, after_registration/0]).
+-optional_callbacks([init/0]).
