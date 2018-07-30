@@ -74,7 +74,7 @@ maybe_register() ->
         true ->
             Backend:register();
         false ->
-            lager:info("Cluster discovery backend ~s does not" 
+            lager:info("Cluster discovery backend ~s does not"
                        "support registration, skipping...", [Backend]),
             ok
     end.
@@ -99,7 +99,7 @@ maybe_do_registration_delay() ->
         true  ->
             registration_delay();
         false ->
-            rabbit_log:info("Cluster discovery backend ~s does not" 
+            rabbit_log:info("Cluster discovery backend ~s does not"
                             "support registration, skipping registration delay.", [Backend]),
             ok
     end.
