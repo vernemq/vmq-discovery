@@ -23,19 +23,19 @@
 
 %% gen_server callbacks
 -export([init/1,
-        handle_call/3,
-        handle_cast/2,
-        handle_info/2,
-        terminate/2,
-        code_change/3]).
+         handle_call/3,
+         handle_cast/2,
+         handle_info/2,
+         terminate/2,
+         code_change/3]).
 
 -define(SERVER, ?MODULE).
 
 -define(APP, vmq_discovery).
 
 -record(state, {
-    interval::integer
-}).
+                interval::integer
+               }).
 
 -type state() :: #state{}.
 
@@ -63,8 +63,8 @@ start_link() ->
 %% @end
 %%--------------------------------------------------------------------
 -spec(init(Args :: term()) ->
-    {ok, State :: state()} | {ok, State :: state(), timeout() | hibernate} |
-    {stop, Reason :: term()} | ignore).
+             {ok, State :: state()} | {ok, State :: state(), timeout() | hibernate} |
+             {stop, Reason :: term()} | ignore).
 init([]) ->
     case application:get_env(?APP, autoclean_interval) of
         0 ->

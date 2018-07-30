@@ -33,7 +33,7 @@ init() ->
 join_cluster(DiscoveryNodes) ->
     case find_node_to_cluster_with(exclude_me(DiscoveryNodes)) of
         {ok, Node} ->
-            lager:info("Node '~s' chossen as discovery node for autoclustering", [Node]),
+            lager:info("Node '~s' chosen as discovery node for autoclustering", [Node]),
             case rpc:call(vmq_peer_service, join, [Node]) of
                 ok ->
                     rpc:call(vmq_cluster, recheck, []),
@@ -43,17 +43,17 @@ join_cluster(DiscoveryNodes) ->
             end;
         none ->
             lager:warning(
-                "Could not successfully contact any node of: ~s. "
-                "Starting as a standalone node...~n",
-                [string:join(lists:map(fun atom_to_list/1, DiscoveryNodes), ",")]
-            )
+              "Could not successfully contact any node of: ~s. "
+              "Starting as a standalone node...~n",
+              [string:join(lists:map(fun atom_to_list/1, DiscoveryNodes), ",")]
+             )
     end.
 
 
 -spec get_cluster_nodes() -> [any()].
 get_cluster_nodes() ->
     [Node || [{Node, true}]
-        <- ets:match(?VMQ_CLUSTER_STATUS, '$1'), Node /= ready].
+                 <- ets:match(?VMQ_CLUSTER_STATUS, '$1'), Node /= ready].
 
 -spec me_in_nodes(list())-> boolean().
 me_in_nodes(Nodes) ->
@@ -71,11 +71,11 @@ find_node_to_cluster_with([]) ->
     none;
 find_node_to_cluster_with([Node|OtherNodes]) ->
     Fail = fun(Reason) ->
-                lager:warning(
-                    "Could not cluster with node: ~s, reason: ~p",
-                    [Node, Reason]),
-                find_node_to_cluster_with(OtherNodes)
-            end,
+                   lager:warning(
+                     "Could not cluster with node: ~s, reason: ~p",
+                     [Node, Reason]),
+                   find_node_to_cluster_with(OtherNodes)
+           end,
     case rpc:call(Node, vmq_cluster, is_ready, []) of
         true ->
             {ok, Node};

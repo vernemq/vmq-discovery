@@ -1,3 +1,5 @@
+
+
 %% Copyright 2018 Octavo Labs AG Zurich Switzerland (https://octavolabs.com)
 %%
 %% Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,8 +20,8 @@
 
 
 -export([maybe_init/0, get_cluster_nodes/0, get_backend/0,
-        maybe_register/0, maybe_unregister/0,
-        maybe_do_registration_delay/0]).
+         maybe_register/0, maybe_unregister/0,
+         maybe_do_registration_delay/0]).
 
 -define(APP, vmq_discovery).
 
@@ -31,12 +33,12 @@
 -spec get_backend() -> atom().
 get_backend() ->
     Backend =
-     case application:get_env(?APP, discovery_backend) of
-        {ok, Backend0} ->
-            Backend0;
-        undefined ->
-            ?DEFAULT_BACKEND
-    end,
+        case application:get_env(?APP, discovery_backend) of
+            {ok, Backend0} ->
+                Backend0;
+            undefined ->
+                ?DEFAULT_BACKEND
+        end,
     lager:info("Configured cluster discovery backend: ~s~n", [Backend]),
     Backend.
 
@@ -57,7 +59,7 @@ maybe_init() ->
             end;
         false ->
             ok
-        end.
+    end.
 
 -spec get_cluster_nodes() -> {ok, Nodes :: list()} |
                              {error, Reason :: string()}.
@@ -72,7 +74,8 @@ maybe_register() ->
         true ->
             Backend:register();
         false ->
-            lager:info("Cluster discovery backend ~s does not supports registration, skipping...", [Backend]),
+            lager:info("Cluster discovery backend ~s does not" 
+                       "support registration, skipping...", [Backend]),
             ok
     end.
 
@@ -83,19 +86,21 @@ maybe_unregister() ->
         true ->
             Backend:unregister();
         false ->
-            lager:info("Cluster discovery backend ~s does not supports registration, skipping...", [Backend]),
+            lager:info("Cluster discovery backend ~s does not"
+                       "support registration, skipping...", [Backend]),
             ok
     end.
 
 
- -spec maybe_do_registration_delay() -> ok.
+-spec maybe_do_registration_delay() -> ok.
 maybe_do_registration_delay() ->
-  Backend = get_backend(),
+    Backend = get_backend(),
     case Backend:supports_registration() of
         true  ->
             registration_delay();
         false ->
-            rabbit_log:info("Cluster discovery backend ~s does not support registration, skipping registration delay.", [Backend]),
+            rabbit_log:info("Cluster discovery backend ~s does not" 
+                            "support registration, skipping registration delay.", [Backend]),
             ok
     end.
 
