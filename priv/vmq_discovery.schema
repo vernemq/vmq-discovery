@@ -33,6 +33,10 @@ fun(Conf) ->
     end
 end}.
 
+%%--------------------------------------------------------------------
+%% Cluster using a list of nodes
+%%--------------------------------------------------------------------
+
 %% @doc Manual configuration cluster discovery backend.
 %% Clustering happens automatically at startup by joining
 %% a list of predefined nodes.
@@ -51,3 +55,34 @@ fun(Conf) ->
         SomethingElse -> SomethingElse.
     end
 end}.
+
+
+%%--------------------------------------------------------------------
+%% Cluster using Kubernetes
+%%--------------------------------------------------------------------
+
+%% @doc The Kubernetes host.
+{mapping, "vmq_discovery.k8s.host", "vmq_discovery.k8s.host", [
+    {commented, "kubernetes.default.svc.cluster.local"}
+    {default, "kubernetes.default.svc.cluster.local"}
+    {datatype, string}
+]}.
+
+
+%% @doc The Kubernetes port.
+{mapping, "vmq_discovery.k8s.port", "vmq_discovery.k8s.port", [
+    {default, 443},
+    {commented, 443},
+    {datatype, integer},
+    {validators, ["non_negative_integer"]}
+]}.
+
+%% @doc Defines the address type used by the node. Can be an ip or dns hostname.
+{mapping, "vmq_discovery.k8s.address_type", "vmq_discovery.k8s.address_type", [
+    {default, hostname},
+    {commented, hostname},
+    {datatype, {enum, [hostname, ip]}}
+]}.
+
+
+
