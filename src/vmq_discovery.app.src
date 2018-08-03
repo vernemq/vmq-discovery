@@ -16,7 +16,7 @@
         {discovery_config, [
               {k8s, [
                     {master_node_url, "https://kubernetes.default.svc.cluster.local:443"},
-                    {service_namespace, "/var/run/secrets/kubernetes.io/serviceaccount/namespace"},
+                    {service_namespace, "default"},
                     {service_name, "vernemq"}
                     {token_path, "/var/run/secrets/kubernetes.io/serviceaccount/token"},
                     {certificate_path, "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"},

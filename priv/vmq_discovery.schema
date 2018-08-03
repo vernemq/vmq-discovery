@@ -71,8 +71,8 @@ end}.
 
 %% @doc Path to the Kubernetes service namespace.
 {mapping, "vmq_discovery.k8s.service_namespace", "vmq_discovery.discovery_config.k8s.service_namespace", [
-    {default, "/var/run/secrets/kubernetes.io/serviceaccount/namespace"},
-    {commented, "/var/run/secrets/kubernetes.io/serviceaccount/namespace"},
+    {default, "default"},
+    {commented, "default"},
     {datatype, file},
 ]}.
 
