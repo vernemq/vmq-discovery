@@ -61,28 +61,43 @@ end}.
 %% Cluster using Kubernetes
 %%--------------------------------------------------------------------
 
-%% @doc The Kubernetes host.
-{mapping, "vmq_discovery.k8s.host", "vmq_discovery.k8s.host", [
-    {commented, "kubernetes.default.svc.cluster.local"}
-    {default, "kubernetes.default.svc.cluster.local"}
+%% @doc The Kubernetes master node url(API url).
+{mapping, "vmq_discovery.k8s.master_node_url", "vmq_discovery.discovery_config.k8s.master_node_url", [
+    {commented, "https://kubernetes.default.svc.cluster.local:443"}
+    {default, "https://kubernetes.default.svc.cluster.local:443"}
     {datatype, string}
 ]}.
 
 
-%% @doc The Kubernetes port.
-{mapping, "vmq_discovery.k8s.port", "vmq_discovery.k8s.port", [
-    {default, 443},
-    {commented, 443},
-    {datatype, integer},
-    {validators, ["non_negative_integer"]}
+%% @doc Path to the Kubernetes service namespace.
+{mapping, "vmq_discovery.k8s.service_namespace", "vmq_discovery.discovery_config.k8s.service_namespace", [
+    {default, "/var/run/secrets/kubernetes.io/serviceaccount/namespace"},
+    {commented, "/var/run/secrets/kubernetes.io/serviceaccount/namespace"},
+    {datatype, file},
+]}.
+
+%% @doc Path to the Kubernetes service namespace.
+{mapping, "vmq_discovery.k8s.service_name", "vmq_discovery.discovery_config.k8s.service_name", [
+    {default, "vernemq"},
+    {commented, "vernemq"},
+    {datatype, string}
+]}.
+
+{mapping, "mq_discovery.k8s.token_path", "mq_discovery.discovery_config.k8s.token_path",
+ [{datatype, file},
+  {commented, "/var/run/secrets/kubernetes.io/serviceaccount/token"}
+  {default, "/var/run/secrets/kubernetes.io/serviceaccount/token"},
+]}.
+
+{mapping, "mq_discovery.k8s.certificate_path", "mq_discovery.discovery_config.k8s.certificate_path",
+ [{datatype, file},
+  {commented, "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"}
+  {default, "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"},
 ]}.
 
 %% @doc Defines the address type used by the node. Can be an ip or dns hostname.
-{mapping, "vmq_discovery.k8s.address_type", "vmq_discovery.k8s.address_type", [
+{mapping, "vmq_discovery.k8s.address_type", "vmq_discovery.discovery_config.k8s.address_type", [
     {default, hostname},
     {commented, hostname},
     {datatype, {enum, [hostname, ip]}}
 ]}.
-
-
-
