@@ -12,8 +12,18 @@
   {env,[
         {discovery_enabled, false},
         {discovery_backend, manual},
-        {autoclean_interval, 20}
-       ]},
+        {autoclean_interval, 20},
+        {discovery_config, [
+              {k8s, [
+                    {master_node_url, "https://kubernetes.default.svc.cluster.local:443"},
+                    {service_namespace, "/var/run/secrets/kubernetes.io/serviceaccount/namespace"},
+                    {service_name, "vernemq"}
+                    {token_path, "/var/run/secrets/kubernetes.io/serviceaccount/token"},
+                    {certificate_path, "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"},
+                    {address_type, hostname}
+              ]}
+        ]}
+      ]},
   {modules, []},
   {maintainers, ["Dairon Medina <me@dairon.org>"]},
   {licenses, ["Apache2"]},
