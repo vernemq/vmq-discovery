@@ -33,11 +33,11 @@ init() ->
 
 list_nodes() ->
     {ok, DiscoveryConf} = application:get_env(vmq_discovery, discovery_config),
-    K8sConf = proplists:get_value(k8s, DiscoveryConfig),
+    K8sConf = proplists:get_value(k8s, DiscoveryConf),
     ApiServer = proplists:get_value(master_node_url, K8sConf),
-    Namespace = get_value(namespace, K8sConf),
+    Namespace = proplists:get_value(namespace, K8sConf),
     Service = proplists:get_value(service_name, K8sConf),
-    ServiceUrl = generate_service_url(Service, Namespace)
+    ServiceUrl = generate_service_url(Service, Namespace),
     AddressType = proplists:get_value(address_type, K8sConf, hostname),
     TokenPath = proplists:get_value(token_path, K8sConf),
     CertPath = proplists:get_value(certificate_path, K8sConf),
@@ -74,7 +74,7 @@ api_request(URL, Headers, Opts) ->
     lager:debug("Hitting kubernetes endpoint: ~p.", [URL]),
     case hackney:get(URL, Headers, Params, Opts) of
         {ok, 200, _RespHeaders, Client} ->
-            {ok, Response} = hackney:body(Client)
+            {ok, Response} = hackney:body(Client);
         {ok, Status, _, _} ->
             {error, Status};
         {error, Reason} ->
@@ -85,7 +85,7 @@ api_request(URL, Headers, Opts) ->
 auth_headers(TokenPath) ->
     Token0 = read_file(TokenPath),
     Token = binary:replace(Token0, <<"\n">>, <<>>),
-    [{"Authorization", "Bearer " ++ binary_to_list(Token)}],
+    [{"Authorization", "Bearer " ++ binary_to_list(Token)}].
 
 read_file(Path, Default) ->
     case file:read_file(Path) of
