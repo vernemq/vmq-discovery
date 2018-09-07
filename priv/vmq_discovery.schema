@@ -52,7 +52,7 @@ fun(Conf) ->
     Nodes = [V || {_, V} <- cuttlefish_variable:filter_by_prefix(Prefix, Conf)],
     case Nodes of
         [] -> cuttlefish:unset();
-        SomethingElse -> SomethingElse.
+        SomethingElse -> SomethingElse
     end
 end}.
 
@@ -63,8 +63,8 @@ end}.
 
 %% @doc The Kubernetes master node url(API url).
 {mapping, "vmq_discovery.k8s.master_node_url", "vmq_discovery.discovery_config.k8s.master_node_url", [
-    {commented, "https://kubernetes.default.svc.cluster.local:443"}
-    {default, "https://kubernetes.default.svc.cluster.local:443"}
+    {commented, "https://kubernetes.default.svc.cluster.local:443"},
+    {default, "https://kubernetes.default.svc.cluster.local:443"},
     {datatype, string}
 ]}.
 
@@ -73,7 +73,7 @@ end}.
 {mapping, "vmq_discovery.k8s.service_namespace", "vmq_discovery.discovery_config.k8s.service_namespace", [
     {default, "default"},
     {commented, "default"},
-    {datatype, file},
+    {datatype, file}
 ]}.
 
 %% @doc Path to the Kubernetes service namespace.
@@ -85,14 +85,14 @@ end}.
 
 {mapping, "mq_discovery.k8s.token_path", "mq_discovery.discovery_config.k8s.token_path",
  [{datatype, file},
-  {commented, "/var/run/secrets/kubernetes.io/serviceaccount/token"}
-  {default, "/var/run/secrets/kubernetes.io/serviceaccount/token"},
+  {commented, "/var/run/secrets/kubernetes.io/serviceaccount/token"},
+  {default, "/var/run/secrets/kubernetes.io/serviceaccount/token"}
 ]}.
 
 {mapping, "mq_discovery.k8s.certificate_path", "mq_discovery.discovery_config.k8s.certificate_path",
  [{datatype, file},
-  {commented, "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"}
-  {default, "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"},
+  {commented, "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"},
+  {default, "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"}
 ]}.
 
 %% @doc Defines the address type used by the node. Can be an ip or dns hostname.
