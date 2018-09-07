@@ -18,7 +18,7 @@
 
 -behaviour(vmq_discovery_backend).
 
--export([list_nodes/0, register/0,
+-export([init/0, list_nodes/0, register/0,
 	 supports_registration/0, unregister/0]).
 
 -define(SERVICE_ACCOUNT_PATH, "/var/run/secrets/kubernetes.io/serviceaccount/").
@@ -28,7 +28,7 @@
 %%%===================================================================
 
 init() ->
-    lager:debug("Peer discovery Kubernetes: initialising..."),
+    lager:info("Initializing Kubernetes peer discovery..."),
     ok = application:ensure_started(hackney).
 
 list_nodes() ->
@@ -50,9 +50,10 @@ list_nodes() ->
     Headers = auth_headers(TokenPath),
     case api_request(Url, Headers, HttpOpts) of
       {ok, Response} ->
-	     {ok, lists:map(fun get_nodes/1, Response)};
+         Addresses = extract_addresses(AddressType, Response),
+	     {ok, lists:map(fun node_name/2, Service, Addresses)};
       {error, Reason} ->
-          lager:info("Failed to get nodes from k8s - ~s", [Reason]),
+          lager:info("Failed to get nodes from Kubernetes - ~s", [Reason]),
           {error, Reason}
     end.
 
@@ -71,19 +72,18 @@ generate_service_url(Service, Namespace) ->
 
 api_request(URL, Headers, Opts) ->
     Params = <<>>,
-    lager:debug("Hitting kubernetes endpoint: ~p.", [URL]),
+    lager:debug("Hitting Kubernetes endpoint: ~p.", [URL]),
     case hackney:get(URL, Headers, Params, Opts) of
         {ok, 200, _RespHeaders, Client} ->
-            {ok, Response} = hackney:body(Client);
+            {ok, _Response} = hackney:body(Client);
         {ok, Status, _, _} ->
             {error, Status};
         {error, Reason} ->
             {error, Reason}
     end.
 
--spec auth_headers() -> binary().
 auth_headers(TokenPath) ->
-    Token0 = read_file(TokenPath),
+    Token0 = read_file(TokenPath, undefined),
     Token = binary:replace(Token0, <<"\n">>, <<>>),
     [{"Authorization", "Bearer " ++ binary_to_list(Token)}].
 
@@ -95,3 +95,29 @@ read_file(Path, Default) ->
             lager:error("Cannot read ~s. Reason: ~p", [Path, Error]),
             Default
     end.
+
+node_name(ServiceName, Address) ->
+    list_to_atom(ServiceName ++ "@" ++ binary_to_list(Address)).
+
+get_ready_addresses(AddressType, Subset) ->
+    case maps:get(<<"notReadyAddresses">>, Subset, undefined) of
+      undefined -> ok;
+      NotReadyAddresses ->
+            Formatted = string:join([binary_to_list(get_address(AddressType, Address))
+                                    || Address <- NotReadyAddresses], ", "),
+            lager:info(
+                "Kubernetes endpoint returned some nodes thst are not ready: ~s",
+                [Formatted]
+            )
+    end,
+    maps:get(<<"addresses">>, Subset, []).
+
+extract_addresses(AddressType, Response) ->
+    AddressList = [[get_address(AddressType, Address)
+                  || Address <- get_ready_addresses(AddressType, Subset)]
+                  || Subset <- maps:get(<<"subsets">>, Response, [])],
+    sets:to_list(sets:union(lists:map(fun sets:from_list/1, AddressList))).
+
+get_address(AddressType, Address) ->
+    maps:get(atom_to_binary(AddressType, utf8), Address).
+

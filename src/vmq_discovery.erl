@@ -18,6 +18,12 @@
 
 -author("Dairon Medina <me@dairon.org>").
 
+-behaviour(on_config_change_hook).
+
+-export([start/0, stop/0]).
+
+% VMQ plugin Callbacks
+-export([change_config/1]).
 
 -export([maybe_init/0, get_cluster_nodes/0, get_backend/0,
          maybe_register/0, maybe_unregister/0,
@@ -29,6 +35,24 @@
 %% default node prefix to attach to discovered hostnames
 -define(DEFAULT_NODE_PREFIX, "VerneMQ").
 
+start() ->
+    {ok, _} = application:ensure_all_started(?APP),
+    maybe_init(),
+    ok.
+
+stop() ->
+    application:stop(?APP).
+
+
+change_config(Configs) ->
+    case lists:keyfind(?APP, 1, application:which_applications()) of
+        false ->
+            %% app is loaded but not started
+            ok;
+        _ ->
+            %% app is started
+            lager:debug("Reloading config ~p", [Configs])
+    end.
 
 -spec get_backend() -> atom().
 get_backend() ->

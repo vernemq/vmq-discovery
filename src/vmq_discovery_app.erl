@@ -24,7 +24,18 @@
 %%====================================================================
 
 start(_StartType, _StartArgs) ->
-    vmq_discovery_sup:start_link().
+        case vmq_discovery_sup:start_link() of
+        {ok, _} = Ret ->
+            case lists:keymember(vmq_plugin, 1, application:which_applications()) of
+                true ->
+                    vmq_discovery_cli:register_cli();
+                false ->
+                    ignore
+            end,
+            Ret;
+        E ->
+            E
+    end.
 
 %%--------------------------------------------------------------------
 stop(_State) ->

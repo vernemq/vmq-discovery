@@ -100,16 +100,16 @@ code_change(_OldVsn, State, _Extra) ->
 %% Return the nodes discovered by the cluster discovery backend.
 %% @end
 %%--------------------------------------------------------------------
--spec discovered_nodes() -> [node()].
-discovered_nodes() ->
-    Backend = vmq_discovery:get_backend(),
-    case Backend:list_nodes() of
-        {ok, Nodes} ->
-            lager:debug("Cluster discovery backend: ~p returned ~p",
-                        [Backend, Nodes]),
-            Nodes;
-        {error, Reason} ->
-            lager:debug("Cluster discovery backend: ~p returned error ~p",
-                        [Backend, Reason]),
-            []
-    end.
+% -spec discovered_nodes() -> [node()].
+% discovered_nodes() ->
+%     Backend = vmq_discovery:get_backend(),
+%     case Backend:list_nodes() of
+%         {ok, Nodes} ->
+%             lager:debug("Cluster discovery backend: ~p returned ~p",
+%                         [Backend, Nodes]),
+%             Nodes;
+%         {error, Reason} ->
+%             lager:debug("Cluster discovery backend: ~p returned error ~p",
+%                         [Backend, Reason]),
+%             []
+%     end.

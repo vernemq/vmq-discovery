@@ -7,7 +7,8 @@
    [kernel,
     stdlib,
     lager,
-    clique
+    clique,
+    hackney
    ]},
   {env,[
         {discovery_enabled, false},
@@ -17,11 +18,15 @@
               {k8s, [
                     {master_node_url, "https://kubernetes.default.svc.cluster.local:443"},
                     {service_namespace, "default"},
-                    {service_name, "vernemq"}
+                    {service_name, "vernemq"},
                     {token_path, "/var/run/secrets/kubernetes.io/serviceaccount/token"},
                     {certificate_path, "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"},
                     {address_type, hostname}
               ]}
+        ]},
+        {vmq_config_enabled, true},
+        {vmq_plugin_hooks, [
+            {vmq_discovery, change_config, 1, [internal]}
         ]}
       ]},
   {modules, []},
