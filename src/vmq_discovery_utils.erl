@@ -28,6 +28,8 @@ node_prefix() ->
 
 
 -spec append_node_prefix(binary() | list()) -> atom().
+append_node_prefix(Node) when is_binary(Node) ->
+  append_node_prefix(binary:bin_to_list(Node));
 append_node_prefix(Node) ->
   Hostname = case string:tokens(Node, ?NODENAME_SEPARATOR) of
     [_ExistingPrefix, Node] ->
