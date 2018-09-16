@@ -51,9 +51,9 @@ list_nodes() ->
     case api_request(Url, Headers, HttpOpts) of
       {ok, Response} ->
          Addresses = extract_addresses(AddressType, Response),
-	     {ok, lists:map(fun node_name/2, Service, Addresses)};
+	     {ok, lists:map(fun vmq_discovery_utils:append_node_prefix/1, Addresses)};
       {error, Reason} ->
-          lager:info("Failed to get nodes from Kubernetes - ~s", [Reason]),
+          lager:warning("Failed to get nodes from Kubernetes - ~s", [Reason]),
           {error, Reason}
     end.
 
@@ -95,9 +95,6 @@ read_file(Path, Default) ->
             lager:error("Cannot read ~s. Reason: ~p", [Path, Error]),
             Default
     end.
-
-node_name(ServiceName, Address) ->
-    list_to_atom(ServiceName ++ "@" ++ binary_to_list(Address)).
 
 get_ready_addresses(AddressType, Subset) ->
     case maps:get(<<"notReadyAddresses">>, Subset, undefined) of
