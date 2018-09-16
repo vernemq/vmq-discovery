@@ -11,8 +11,8 @@
     hackney
    ]},
   {env,[
-        {discovery_enabled, false},
-        {discovery_backend, manual},
+        {discovery_enabled, true},
+        {discovery_backend, vmq_discovery_k8s},
         {autoclean_interval, 20},
         {discovery_config, [
               {k8s, [

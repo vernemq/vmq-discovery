@@ -25,10 +25,10 @@
 {translation, "vmq_discovery.discovery_backend",
 fun(Conf) ->
     case cuttlefish:conf_get("vmq_discovery.discovery_backend", Conf, manual) of
-        manual         -> backend_manual;
-        dns            -> backend_dns;
-        aws            -> backend_aws;
-        kubernetes     -> backend_k8s;
+        manual         -> vmq_discovery_manual;
+        dns            -> vmq_discovery_dns;
+        aws            -> vmq_discovery_aws;
+        kubernetes     -> vmq_discovery_k8s;
         Other         -> Other
     end
 end}.
