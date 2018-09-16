@@ -1,5 +1,3 @@
-
-
 %% Copyright 2018 Octavo Labs AG Zurich Switzerland (https://octavolabs.com)
 %%
 %% Licensed under the Apache License, Version 2.0 (the "License");
