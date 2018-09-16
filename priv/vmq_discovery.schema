@@ -101,3 +101,14 @@ end}.
     {commented, hostname},
     {datatype, {enum, [hostname, ip]}}
 ]}.
+
+
+%%--------------------------------------------------------------------
+%% Cluster using DNS
+%%--------------------------------------------------------------------
+
+%% @doc Defines the Seed Host for DNS based discovery.
+{mapping, "vmq_discovery.dns.seed_host", "vmq_discovery.discovery_config.dns.seed_host", [
+    {default, ""},
+    {datatype, string}
+]}.
