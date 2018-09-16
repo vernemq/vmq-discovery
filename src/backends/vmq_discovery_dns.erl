@@ -13,3 +13,26 @@
 %% limitations under the License.
 
 -module(vmq_discovery_dns).
+
+-author("Dairon Medina <me@dairon.org>").
+
+-behaviour(vmq_discovery_backend).
+
+-export([list_nodes/0, supports_registration/0,
+        register/0, unregister/0]).
+
+%%%===================================================================
+%%% API
+%%%===================================================================
+
+list_nodes() ->
+  {ok, {}}.
+
+supports_registration() ->
+    false.
+
+register() ->
+    ok.
+
+unregister() ->
+    ok.
