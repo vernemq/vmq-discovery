@@ -41,7 +41,6 @@ start() ->
 stop() ->
     application:stop(?APP).
 
-
 change_config(Configs) ->
     case lists:keyfind(?APP, 1, application:which_applications()) of
         false ->

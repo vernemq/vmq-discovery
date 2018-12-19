@@ -1,16 +1,36 @@
 {"1.1.0",
-[{<<"clique">>,{pkg,<<"clique">>,<<"0.3.11">>},0},
+[{<<"certifi">>,{pkg,<<"certifi">>,<<"2.0.0">>},1},
+ {<<"clique">>,{pkg,<<"clique">>,<<"0.3.11">>},0},
  {<<"cuttlefish">>,
   {git,"https://github.com/kyorai/cuttlefish.git",
        {ref,"649cda2828ef939126a20faa5d0ee0a2ab69f9a6"}},
   0},
  {<<"getopt">>,{pkg,<<"getopt">>,<<"0.8.2">>},1},
  {<<"goldrush">>,{pkg,<<"goldrush">>,<<"0.1.9">>},1},
- {<<"lager">>,{pkg,<<"lager">>,<<"3.6.3">>},0}]}.
+ {<<"hackney">>,{pkg,<<"hackney">>,<<"1.11.0">>},0},
+ {<<"idna">>,{pkg,<<"idna">>,<<"5.1.0">>},1},
+ {<<"jsx">>,{pkg,<<"jsx">>,<<"2.9.0">>},0},
+ {<<"lager">>,{pkg,<<"lager">>,<<"3.6.3">>},0},
+ {<<"metrics">>,{pkg,<<"metrics">>,<<"1.0.1">>},1},
+ {<<"mimerl">>,{pkg,<<"mimerl">>,<<"1.0.2">>},1},
+ {<<"ssl_verify_fun">>,{pkg,<<"ssl_verify_fun">>,<<"1.1.1">>},1},
+ {<<"unicode_util_compat">>,{pkg,<<"unicode_util_compat">>,<<"0.3.1">>},2},
+ {<<"vernemq_dev">>,
+  {git,"git://github.com/erlio/vernemq_dev.git",
+       {ref,"39e737ce643700ca429dd36a97ed138069c15036"}},
+  0}]}.
 [
 {pkg_hash,[
+ {<<"certifi">>, <<"A0C0E475107135F76B8C1D5BC7EFB33CD3815CB3CF3DEA7AEFDD174DABEAD064">>},
  {<<"clique">>, <<"ED9293280FA4F581B0F0FE9B3BDBEF2F6A81371514446D050066809EC301AF85">>},
  {<<"getopt">>, <<"B17556DB683000BA50370B16C0619DF1337E7AF7ECBF7D64FBF8D1D6BCE3109B">>},
  {<<"goldrush">>, <<"F06E5D5F1277DA5C413E84D5A2924174182FB108DABB39D5EC548B27424CD106">>},
- {<<"lager">>, <<"FE78951D174616273F87F0DBC3374D1430B1952E5EFC4E1C995592D30A207294">>}]}
+ {<<"hackney">>, <<"4951EE019DF102492DABBA66A09E305F61919A8A183A7860236C0FDE586134B6">>},
+ {<<"idna">>, <<"D72B4EFFEB324AD5DA3CAB1767CB16B17939004E789D8C0AD5B70F3CEA20C89A">>},
+ {<<"jsx">>, <<"D2F6E5F069C00266CAD52FB15D87C428579EA4D7D73A33669E12679E203329DD">>},
+ {<<"lager">>, <<"FE78951D174616273F87F0DBC3374D1430B1952E5EFC4E1C995592D30A207294">>},
+ {<<"metrics">>, <<"25F094DEA2CDA98213CECC3AEFF09E940299D950904393B2A29D191C346A8486">>},
+ {<<"mimerl">>, <<"993F9B0E084083405ED8252B99460C4F0563E41729AB42D9074FD5E52439BE88">>},
+ {<<"ssl_verify_fun">>, <<"28A4D65B7F59893BC2C7DE786DEC1E1555BD742D336043FE644AE956C3497FBE">>},
+ {<<"unicode_util_compat">>, <<"A1F612A7B512638634A603C8F401892AFBF99B8CE93A45041F8AACA99CADB85E">>}]}
 ].
